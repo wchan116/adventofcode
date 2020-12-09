@@ -36,10 +36,9 @@ def p2(inp):
             cont_set = []
         s += num
         cont_set.append(num)
-        if s > invalid_num:
-            while s > invalid_num:
-                s -= cont_set[0]
-                cont_set.pop(0)
+        while s > invalid_num:
+            s -= cont_set[0]
+            cont_set.pop(0)
         if s == invalid_num:
             break
     return min(cont_set) + max(cont_set)
