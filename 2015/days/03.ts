@@ -2,7 +2,7 @@
 
 import get_input from '../utils/getline';
 
-let input: string = get_input();
+let input: string[] = get_input();
 
 const getHousesVisited = (inp: string): Set<unknown> => {
     let pos = [0, 0];
@@ -28,20 +28,21 @@ const getHousesVisited = (inp: string): Set<unknown> => {
     return seen;
 }
 
-const p1 = (inp: string): number => {
-    return getHousesVisited(inp).size;
+const p1 = (inp: string[]): number => {
+    return getHousesVisited(inp[0]).size;
 }
 
-const p2 = (inp: string): number => {
+const p2 = (inp: string[]): number => {
+    const input = inp[0]
     let santa_path: string = "";
     let robot_path: string = "";
 
-    for (let i = 0; i < inp.length; ++i) {
+    for (let i = 0; i < input.length; ++i) {
         if (i % 2 === 0) {
-            santa_path += inp[i];
+            santa_path += input[i];
         }
         else {
-            robot_path += inp[i];
+            robot_path += input[i];
         }
     }
     const shouses = getHousesVisited(santa_path);

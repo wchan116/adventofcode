@@ -2,9 +2,9 @@
 
 import getline from '../utils/getline';
 
-let input: string = getline();
+let input: string[] = getline();
 
-const transformLights = (inp: string, onFunc, offFunc, toggleFunc): number[][] => {
+const transformLights = (inp: string[], onFunc, offFunc, toggleFunc): number[][] => {
     const regex = /(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)/;
     let lights: number[][] = new Array(1000).fill(0).map(() => new Array(1000).fill(0));
     for (const line of inp) {
@@ -39,12 +39,12 @@ const transformLights = (inp: string, onFunc, offFunc, toggleFunc): number[][] =
     return lights;
 }
 
-const p1 = (inp: string): number => {
+const p1 = (inp: string[]): number => {
     let lights: number[][] = transformLights(inp, (light) => 1, (light) => 0, (light) => light ^ 1 );
     return countBrightness(lights);
 }
 
-const p2 = (inp: string): number => {
+const p2 = (inp: string[]): number => {
     let lights: number[][] = transformLights(inp, 
                                             (light) => light + 1, 
                                             (light) => (light - 1 < 0) ? 0 : light - 1,

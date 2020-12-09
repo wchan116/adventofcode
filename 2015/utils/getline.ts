@@ -3,7 +3,7 @@
 const fs = require('fs');
 const readline = require('readline');
 
-const get_input = (): string => {
+const get_input = (): string[] => {
     let inp;
     if (process.argv.length != 3) {
         inp = fs.readFileSync(0, 'utf8');

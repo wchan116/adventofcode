@@ -2,13 +2,13 @@
 
 import getline from '../utils/getline';
 
-let input: string = getline();
+let input: string[] = getline();
 
-const p1 = (inp: string): number => {
+const p1 = (inp: string[]): number => {
     return 0;
 }
 
-const p2 = (inp: string): number => {
+const p2 = (inp: string[]): number => {
     return 0;
 }
 

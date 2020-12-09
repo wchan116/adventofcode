@@ -3,7 +3,7 @@
 const md5 = require('md5');
 import get_input from '../utils/getline';
 
-let input: string = get_input();
+let input: string[] = get_input();
 
 const findHashStartingWith = (inp: string, num: string): number  => {
     let i: number = 0;
@@ -17,12 +17,12 @@ const findHashStartingWith = (inp: string, num: string): number  => {
     return i;
 }
 
-const p1 = (inp: string): number => {
-    return findHashStartingWith(inp, '00000');
+const p1 = (inp: string[]): number => {
+    return findHashStartingWith(inp[0], '00000');
 }
 
-const p2 = (inp: string): number => {
-    return findHashStartingWith(inp, '000000');
+const p2 = (inp: string[]): number => {
+    return findHashStartingWith(inp[0], '000000');
 }
 
 console.log(p1(input));

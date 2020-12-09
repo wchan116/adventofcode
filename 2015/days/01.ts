@@ -2,9 +2,9 @@
 
 import get_input from '../utils/getline';
 
-let input: string = get_input();
+let input: string[] = get_input();
 
-const p1 = (inp: string): number => {
+const p1 = (inp: string[]): number => {
     let floor: number = 0;
 
     for (const action of inp) {
@@ -19,7 +19,7 @@ const p1 = (inp: string): number => {
     return floor;
 }
 
-const p2 = (inp: string): number => {
+const p2 = (inp: string[]): number => {
     let floor: number = 0;
 
     for (let i = 0; i < inp.length; ++i) {

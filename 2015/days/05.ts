@@ -1,11 +1,10 @@
 #!/usr/bin/env ts-node-script
 
-import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
 import getline from '../utils/getline';
 
-let input: string = getline();
+let input: string[] = getline();
 
-const isNice = (inp: string, pred): number => {
+const isNice = (inp: string[], pred): number => {
     let nice: number = 0;
     for (const str of inp) {
         if (pred(str)) {
@@ -15,7 +14,7 @@ const isNice = (inp: string, pred): number => {
     return nice;
 }
 
-const p1 = (inp: string): number => {
+const p1 = (inp: string[]): number => {
     return isNice(inp, p1good);
 }
 
@@ -57,7 +56,7 @@ const isVowel = (char): boolean => {
     return char == 'a' || char == 'e' || char == 'i' || char == 'o' || char == 'u';
 }
 
-const p2 = (inp: string): number => {
+const p2 = (inp: string[]): number => {
     return isNice(inp, p2good);
 }
 

@@ -2,7 +2,7 @@
 
 import get_input from '../utils/getline';
 
-let input: string = get_input();
+let input: string[] = get_input();
 let sizes: Array<Array<number>> = [];
 
 const regex = /(\d+)x(\d+)x(\d+)/;
