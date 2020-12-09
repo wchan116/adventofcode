@@ -4,37 +4,31 @@ import get_input from '../utils/getline';
 
 let input: string[] = get_input();
 
-const p1 = (inp: string[]): number => {
+const goToFloor = (input: string, stopAt) => {
     let floor: number = 0;
 
-    for (const action of inp) {
-        if (action === '(') {
+    for (let i = 0; i < input.length; ++i) {
+        if (input[i] === '(') {
             ++floor;
         }
-        else if (action === ')') {
+        else if (input[i] === ')') {
             --floor;
+        }
+        
+        if (floor === stopAt) {
+            return i + 1;
         }
     }
 
     return floor;
+
+}
+const p1 = (inp: string[]): number => {
+    return goToFloor(inp[0], null);
 }
 
 const p2 = (inp: string[]): number => {
-    let floor: number = 0;
-
-    for (let i = 0; i < inp.length; ++i) {
-        if (inp[i] === '(') {
-            ++floor;
-        }
-        else if (inp[i] === ')') {
-            --floor;
-        }
-        
-        if (floor === -1) {
-            return i + 1;
-        }
-    }
-    return -1;
+    return goToFloor(inp[0], -1);
 }
 
 console.log(p1(input));
