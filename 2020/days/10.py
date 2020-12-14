@@ -1,8 +1,7 @@
 from utils import get_input
 
+
 def p1(inp):
-    device = max(inp)
-    outlet = 0
     one_jolt_diff = 0
     three_jolt_diff = 1
 
@@ -15,13 +14,13 @@ def p1(inp):
             three_jolt_diff += 1
     return one_jolt_diff * three_jolt_diff
 
+
 def p2(inp):
     inp.sort()
-    nums = set(inp)
 
     paths = [0] * len(inp)
     paths[0] = 1
-    
+
     for i in range(len(inp)):
         try:
             if inp[i + 1] - inp[i] <= 3:

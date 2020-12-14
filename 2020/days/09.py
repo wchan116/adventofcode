@@ -2,18 +2,20 @@ from utils import get_input
 
 from collections import deque
 
+
 def check_sum_exists(window, target):
     ht = {}
     for i in range(len(window)):
         ht[window[i]] = i
-    
+
     for i in range(len(window)):
         if target - window[i] in ht and i != ht[target - window[i]]:
             return True
     return False
 
+
 def p1(inp):
-    preamble = 25 
+    preamble = 25
     window = deque(maxlen=preamble)
 
     for i in range(preamble):
