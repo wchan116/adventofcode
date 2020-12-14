@@ -2,53 +2,18 @@ from utils import get_input
 
 from copy import deepcopy
 
-def print_seats(seats):
-    s = [''.join(x) for x in seats]
-    print(s)
+directions = {
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, -1),
+    (0, 1),
+    (1, -1),
+    (1, 0),
+    (1, 1)
+}
 
-def p1(inp):
-    new_copy = deepcopy(inp)
-    prev = deepcopy(new_copy)
-
-    while True:
-        for i in range(len(inp)):
-            for j in range(len(inp[0])):
-                occupied = check_adjacent(prev, i, j)
-                #print(occupied)
-                if prev[i][j] == 'L' and occupied.count(True) == 0:
-                    new_copy[i][j] = '#'
-                elif prev[i][j] == '#' and occupied.count(True) >= 4:
-                    new_copy[i][j] = 'L'
-        #print_seats(new_copy)
-        if new_copy == prev:
-            break
-        prev = deepcopy(new_copy)
-    return sum(x.count('#') for x in new_copy)
-        
-    #print_seats(new_copy)
-
-def check_adjacent(seats, i, j):
-    adj_list = []
-    if i-1 >= 0:
-        adj_list.append(seats[i-1][j])
-        if j-1 >= 0:
-            adj_list.append(seats[i-1][j-1])
-        if j+1 < len(seats[0]):
-            adj_list.append(seats[i-1][j+1])
-    if i+1 < len(seats):
-        adj_list.append(seats[i+1][j])
-        if j-1 >= 0:
-            adj_list.append(seats[i+1][j-1])
-        if j+1 < len(seats[0]):
-            adj_list.append(seats[i+1][j+1])
-    if j-1 >= 0:
-        adj_list.append(seats[i][j-1])
-    if j+1 < len(seats[0]):
-        adj_list.append(seats[i][j+1])
-    occupied = [True if x == '#' else False for x in adj_list]
-    return occupied 
-
-def bfs(seats, start, direction):
+def bfs(seats, start, end, direction):
     q = [start]
     seen = set()
 
@@ -56,7 +21,7 @@ def bfs(seats, start, direction):
         curr = q.pop(0)
         x, y = curr
 
-        if seats[x][y] != '.' and curr != start:
+        if seats[x][y] != end and curr != start:
             return x, y 
         
         seen.add(curr)
@@ -68,43 +33,37 @@ def bfs(seats, start, direction):
                 q.append(nb)
     return None
 
-        
-def get_neighbours(seats, start):
-    neighbours = []
-    neighbours.append(bfs(seats, start, (-1, -1))) # NW
-    neighbours.append(bfs(seats, start, (-1, 0)))  # N
-    neighbours.append(bfs(seats, start, (-1, 1)))  # NE
-    neighbours.append(bfs(seats, start, (0, -1)))  # W
-    neighbours.append(bfs(seats, start, (0, 1)))   # E
-    neighbours.append(bfs(seats, start, (1, -1)))  # SW
-    neighbours.append(bfs(seats, start, (1, 0)))   # S
-    neighbours.append(bfs(seats, start, (1, 1)))   # SE
-
+def get_neighbours(seats, start, end=None):
+    neighbours = [bfs(seats, start, end, d) for d in directions]
     return list(filter(lambda x : x is not None, neighbours))
 
-def p2(inp):
-    new_copy = deepcopy(inp)
+def find_seats(seats, nvisible, end=None):
+    new_copy = deepcopy(seats)
     prev = deepcopy(new_copy)
     
-    neighbours = {}
-    for i in range(len(inp)):
-        for j in range(len(inp[0])):
-            neighbours[(i, j)] = get_neighbours(new_copy, (i, j))
+    neighbours = {(i, j): get_neighbours(new_copy, (i, j), end)
+                  for i in range(len(inp))
+                  for j in range(len(inp[0]))}
 
     while True:
-        for i in range(len(inp)):
-            for j in range(len(inp[0])):
+        for i in range(len(seats)):
+            for j in range(len(seats[0])):
                 if prev[i][j] == '.': continue
                 occupied = [True if prev[x][y] == '#' else False for x, y in neighbours[(i, j)]]
                 if prev[i][j] == 'L' and occupied.count(True) == 0:
                     new_copy[i][j] = '#'
-                elif prev[i][j] == '#' and occupied.count(True) >= 5:
+                elif prev[i][j] == '#' and occupied.count(True) >= nvisible:
                     new_copy[i][j] = 'L'
         if new_copy == prev:
             break
         prev = deepcopy(new_copy)
     return sum(x.count('#') for x in new_copy)
 
+def p1(inp):
+    return find_seats(inp, 4)
+
+def p2(inp):
+    return find_seats(inp, 5, '.')
 
 inp = [list(i) for i in get_input()]
 print(p1(inp))
