@@ -33,4 +33,4 @@ def p2(inp):
 
 inp = get_input()
 print(p1(inp))
-# print(p2(inp))
+print(p2(inp))
