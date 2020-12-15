@@ -37,8 +37,8 @@ def p2(inp):
 
             res = [mem_as_bin[i] if mask[i] == "0" else mask[i] for i in range(36)]
             n_x = res.count("X")
-            combos = {x for x in combinations(n_x * "01", n_x)}
-
+            # combos = {x for x in combinations(n_x * "01", n_x)}
+            combos = {format(x, f"#0{n_x+2}b")[2:] for x in range(2 ** n_x - 1)}
             for c in combos:
                 c = list(c)
                 addr = [c.pop(0) if res[i] == "X" else res[i] for i in range(36)]
