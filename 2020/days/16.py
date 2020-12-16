@@ -1,6 +1,8 @@
 from utils import get_input
 
 import re
+from operator import mul
+from functools import reduce
 
 
 def process_input(inp):
@@ -54,17 +56,19 @@ def p2(inp):
     flat_ranges = [r for sublist in list(ranges.values()) for r in sublist]
 
     fields = set(ranges.keys())
-    f = [set() for _ in range(len(ranges.keys()))]
+    col2field = [set() for _ in range(len(ranges.keys()))]
 
-    valid_tickets = []
-    for ticket in nearby_tickets:
-        if check_valid_ticket(flat_ranges, ticket):
-            valid_tickets.append(ticket)
+    # get valid tickets
+    valid_tickets = [
+        ticket for ticket in nearby_tickets if check_valid_ticket(flat_ranges, ticket)
+    ]
 
+    # group every column together
     cols = [
         [ticket[i] for ticket in valid_tickets] for i in range(len(valid_tickets[0]))
     ]
 
+    # for every column, find the potential field for it
     for i in range(len(cols)):
         potential = []
         for v in cols[i]:
@@ -77,28 +81,27 @@ def p2(inp):
                 if r1_s <= v <= r1_e or r2_s <= v <= r2_e:
                     in_range.add(r)
             potential.append(in_range)
-        f[i] = set.intersection(*potential)
+        col2field[i] = set.intersection(*potential)
+
+    # find the actual field from the potential ones
+    # our potential fields are guaranteed to have length 1,2,3..n
+    # so we can just greedily set the potential fields of length 1
+    # to the actual field and then repeat until all fields have been filled
     while fields:
+        # set the actual field
         for i in range(len(cols)):
-            if len(f[i]) == 1:
-                f[i] = list(f[i])[0]
-                fields.remove(f[i])
+            if len(col2field[i]) == 1:
+                col2field[i] = list(col2field[i])[0]
+                fields.remove(col2field[i])
+
+        # remove the recently placed field from every potential field
         for i in range(len(cols)):
-            if isinstance(f[i], set):
-                f[i] = f[i].intersection(fields)
-    indices = []
-    for i in range(len(f)):
-        if f[i].startswith("departure"):
-            indices.append(i)
-    print(indices)
-    prod = 1
+            if isinstance(col2field[i], set):
+                col2field[i] = col2field[i].intersection(fields)
 
-    print(my_tickets)
-    for idx in indices:
-        print(my_tickets[idx])
-        prod *= my_tickets[idx]
+    indices = [i for i in range(len(col2field)) if col2field[i].startswith("departure")]
 
-    return prod
+    return reduce(mul, [my_tickets[i] for i in indices])
 
 
 inp = get_input()
