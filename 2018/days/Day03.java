@@ -4,10 +4,9 @@ import java.util.regex.*;
 public class Day03 {
     private static Map<Pair<Integer, Integer>, String> overlappers = new HashMap<Pair<Integer, Integer>, String>();
 
-    public static int p1(List<String> inp) {
+    public static void buildGrid(List<String> inp) {
         Pattern p = Pattern.compile("#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)");
         Set<Pair<Integer, Integer>> visited = new HashSet<Pair<Integer, Integer>>();
-        Set<Pair<Integer, Integer>> overlap = new HashSet<Pair<Integer, Integer>>();
         for (String line : inp) {
             Matcher m = p.matcher(line);
             if (!m.matches()) continue;
@@ -28,14 +27,19 @@ public class Day03 {
                     else {
                         overlappers.put(newPair, id);
                     }
-                    if (visited.contains(newPair)) {
-                        overlap.add(newPair);
-                    }
-                    visited.add(newPair);
                 }
             }
         }
-        return overlap.size();
+    }
+
+    public static int p1(List<String> inp) {
+        int overlap = 0;
+        for (var val : overlappers.values()) {
+            if (val.equals("X")) {
+                ++overlap;
+            }
+        }
+        return overlap;
     }
 
     public static int p2(List<String> inp) {
@@ -68,6 +72,7 @@ public class Day03 {
 
     public static void main(String[] args) {
         List<String> inp = Utils.readFromFile(args[0]);
+        buildGrid(inp);
         System.out.println(p1(inp));
         System.out.println(p2(inp));
     }
