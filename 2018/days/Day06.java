@@ -8,11 +8,10 @@ public class Day06 {
     }
 
     static List<Pair<Integer, Integer>> points = new ArrayList<Pair<Integer, Integer>>();
-    static int[][] grid;
+    static int max_x = 0;
+    static int max_y = 0;
 
     public static int p1(List<String> inp) {
-        int max_x = 0;
-        int max_y = 0;
         for (String line : inp) {
             Pattern p = Pattern.compile("(\\d+), (\\d+)");
             Matcher m = p.matcher(line);
@@ -28,7 +27,7 @@ public class Day06 {
         ++max_y;
         System.out.println(max_x + " " +  max_y);
 
-        grid = new int[max_x][max_y];
+        int[][] grid = new int[max_x][max_y];
 
         List<Integer> f_points = new ArrayList<Integer>();
         int[] areas = new int[points.size()];
@@ -95,13 +94,37 @@ public class Day06 {
         return largest;
     }
 
-    public static int p2(List<String> inp) {
-        return -1;
+    public static int p2(List<String> inp, int threshold) {
+        int[][] grid = new int[max_x][max_y];
+
+        for (int i = 0; i < max_x; ++i) {
+            for (int j = 0; j < max_y; ++j) {
+                int sum = 0;
+                for (int p = 0; p < points.size(); ++p) {
+                    sum += distance(Pair.createPair(i, j), points.get(p));
+                }
+                if (sum < threshold) {
+                    grid[i][j] = 1;
+                }
+                else {
+                    grid[i][j] = 0;
+                }
+
+            }
+        }
+        int area = 0;
+
+        for (int i = 0; i < max_x; ++i) {
+            for (int j = 0; j < max_y; ++j) {
+                area += grid[i][j];
+            }
+        }
+        return area;
     }
 
     public static void main(String[] args) {
         List<String> inp = Utils.readFromFile(args[0]);
         System.out.println(p1(inp));
-        System.out.println(p2(inp));
+        System.out.println(p2(inp, 10000));
     }
 }
