@@ -34,4 +34,8 @@ public class Pair<K, V> {
     public static <K, V> Pair<K, V> createPair(K x, V y) {
         return new Pair<K, V>(x, y);
     }
+
+    public String toString() {
+        return "[" + x + ", " + y + "]";
+    }
 }
