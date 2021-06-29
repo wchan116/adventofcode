@@ -95,8 +95,7 @@ public class Day06 {
     }
 
     public static int p2(List<String> inp, int threshold) {
-        int[][] grid = new int[max_x][max_y];
-
+        int area = 0;
         for (int i = 0; i < max_x; ++i) {
             for (int j = 0; j < max_y; ++j) {
                 int sum = 0;
@@ -104,21 +103,12 @@ public class Day06 {
                     sum += distance(Pair.createPair(i, j), points.get(p));
                 }
                 if (sum < threshold) {
-                    grid[i][j] = 1;
-                }
-                else {
-                    grid[i][j] = 0;
+                    ++area;
                 }
 
             }
         }
-        int area = 0;
 
-        for (int i = 0; i < max_x; ++i) {
-            for (int j = 0; j < max_y; ++j) {
-                area += grid[i][j];
-            }
-        }
         return area;
     }
 
