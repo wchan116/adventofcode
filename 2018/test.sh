@@ -7,7 +7,9 @@ if [ $# -ne 1 ]; then
         fi
         echo ====== DAY $i =====
         cd days
-        javac Utils.java Day$i.java 
+        echo "Running: javac Utils.java Day$i.java"
+        echo "Running: java Day$i../input/$i.in"
+        javac Utils.java Day$i.java
         java Day$i ../input/$i.in
     done
 else
@@ -16,6 +18,8 @@ else
         day="0$day"
     fi
     cd days
-    javac Utils.java Day$day.java 
+    echo "Running: javac Utils.java Day$day.java"
+    echo "Running: java Day$day ../input/$day.in"
+    javac Utils.java Day$day.java
     java Day$day ../input/$day.in
 fi
