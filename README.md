@@ -54,6 +54,12 @@ cd <year>
 chmod +x test.sh
 ./test.sh 
 ```
+### Test the current day with a different file
+```bash
+cd <year>
+chmod +x test.sh
+./test.sh <file>
+```
 By default the test data is input/$day.in
 ### Test a specific day
 ```bash
