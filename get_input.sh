@@ -9,7 +9,6 @@ set +o allexport
 if [ $# -ne 2 ]; then
     year=$(date | cut -d' ' -f7)
     day=$(date | cut -d' ' -f3)
-    day_regex='\s*'
     if [ -z "$day" ]; then
         day=$(date | cut -d' ' -f4)
     fi
