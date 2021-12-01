@@ -18,7 +18,7 @@ def is_valid(rules, rule):
     return final
 
 
-def p1(inp):
+def parse_input(inp):
     rules = {}
     messages = []
 
@@ -40,13 +40,29 @@ def p1(inp):
             rules[rule_num]['data'] = rule
         elif lm := re.match(r"^(\w+)$", line):
             messages.append(line)
-    # print(rules)
+
+    return rules, messages
+
+
+def p1(inp):
+    rules, messages = parse_input(inp)
     regex = f"^{is_valid(rules, 0)}$"
     return sum(1 for msg in messages if re.match(regex, msg))
 
 
 def p2(inp):
-    pass
+    rules, messages = parse_input(inp)
+    rules[8] = {
+        'status': False,
+        'data': [[42], [42, 8]]
+    }
+    rules[11] = {
+        'status': False,
+        'data': [[42, 31], [42, 11, 31]]
+    }
+    regex = f"^{is_valid(rules, 0)}$"
+    print(regex)
+    return sum(1 for msg in messages if re.match(regex, msg))
 
 
 inp = get_input()

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.regex.*;
 
-public class Day01 {
+public class Day00 {
 
     public static int p1(List<String> inp) {
         return -1;

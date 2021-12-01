@@ -15,6 +15,9 @@ public class Day01 {
         return freq;
     }
 
+
+
+
     public static int p2(List<String> inp) {
         int freq = 0;
         Set<Integer> visited = new HashSet<Integer>() {{
