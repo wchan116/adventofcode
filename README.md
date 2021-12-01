@@ -33,19 +33,20 @@ chmod +x get_all_input.sh
 chmod +x get_all_input.sh
 ./get_all_input.sh <year>
 ```
-By default the test data is input/$day.in
 ### Test the current day
 ```bash
 cd <year>
 chmod +x test.sh
 ./test.sh 
 ```
+By default the test data is input/$day.in
 ### Test a specific day
 ```bash
 cd <year>
 chmod +x test.sh
 ./test.sh <day>
 ```
+By default the test data is input/$day.in
 ### Test a specific day with a different file
 ```bash
 cd <year>
