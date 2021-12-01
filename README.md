@@ -15,3 +15,41 @@ Contains my answers for each year of advent of code.
 |-- get_input.sh
 |-- .env
 ```
+
+## Usage
+Setup an .env file with these contents:
+```bash
+export COOKIE=<your cookie>
+```
+You can get the cookie from logging into AOC manually, going to https://adventofcode.com/2021/day/1/input (any day will do as long as it is the input),
+then going to the Chrome Developer Tools (F12 or Right Click > Inspect Element) then going to the Application tab select Cookies > <site> and copy the 
+value of the session found there.
+### Get input for every year (2016-)
+```bash
+chmod +x get_all_input.sh
+./get_all_input.sh 
+```
+### Get input for a specific year
+```bash
+chmod +x get_all_input.sh
+./get_all_input.sh <year>
+```
+By default the test data is input/$day.in
+### Test the current day
+```bash
+cd <year>
+chmod +x test.sh
+./test.sh 
+```
+### Test a specific day
+```bash
+cd <year>
+chmod +x test.sh
+./test.sh <day>
+```
+### Test a specific day with a different file
+```bash
+cd <year>
+chmod +x test.sh
+./test.sh <day> <file>
+```
