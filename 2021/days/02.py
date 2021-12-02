@@ -24,20 +24,6 @@ def p2(inp):
         'up': lambda h, v, a, x: (h, v, a - x)
     }
     return calc_pos(inp, commands)
-    hori, vert, aim = 0, 0, 0
-    for line in inp:
-        direction, steps = line.split(' ')
-        steps = int(steps)
-        
-        if direction == 'forward':
-            hori += steps
-            vert += aim * steps
-        elif direction == 'down':
-            aim += steps
-        elif direction == 'up':
-            aim -= steps
-    return hori * vert
-
 
 inp = get_input()
 print(p1(inp))
