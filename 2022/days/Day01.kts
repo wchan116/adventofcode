@@ -22,6 +22,6 @@ fun p2(input: List<String>): Int {
     return get_calories(input).sorted().takeLast(3).sum()
 }
 
-val inp = Utils.readFromFile(args[0])
+val inp = Utils.readFromFileIntoList(args[0])!!
 println(p1(inp))
 println(p2(inp))

@@ -5,21 +5,28 @@ import java.lang.NullPointerException
 
 class Utils {
     companion object {
-        fun readFromFile(file: String): List<String> {
-            val inp: MutableList<String> = ArrayList()
+        fun readFromFileIntoList(file: String): List<String>? {
             try {
                 BufferedReader(FileReader(file)).use { br ->
-                    var line: String
-                    while (br.readLine().also { line = it } != null) {
-                        inp.add(line)
-                    }
+                    return br.readLines()
+                }
+            } catch (e: FileNotFoundException) {
+                println("File Not Found!")
+            }
+            return null
+        }
+
+        fun readFromFile(file: String): String? {
+            try {
+                BufferedReader(FileReader(file)).use { br ->
+                    return br.readText()
                 }
             } catch (e: FileNotFoundException) {
                 println("File Not Found!")
             } catch (e: NullPointerException) {
                 // eof
             }
-            return inp
+            return null
         }
     }
 }
