@@ -5,7 +5,7 @@ import re
 
 def is_valid(rules, rule, rec):
 #     print(rec)
-    if rec > 200:
+    if rec > 50:
         return ".*"
     if rules[rule]['status']:
         return rules[rule]['data']
