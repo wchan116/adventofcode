@@ -10,6 +10,6 @@ fun p2(input: List<String>) {
 
 }
 
-val inp = Utils.readFromFile(args[0])
+val inp = Utils.readFromFileIntoList(args[0])!!
 println(p1(inp))
 println(p2(inp))
