@@ -3,14 +3,17 @@ from utils import get_input
 import re
 
 
-def is_valid(rules, rule):
+def is_valid(rules, rule, rec):
+#     print(rec)
+    if rec > 200:
+        return ".*"
     if rules[rule]['status']:
         return rules[rule]['data']
     final = "("
 
     for r in rules[rule]['data']:
         for num in r:
-            s = is_valid(rules, num)
+            s = is_valid(rules, num, rec + 1)
             final += s
         if r != rules[rule]['data'][-1]:
             final += "|"
@@ -46,7 +49,7 @@ def parse_input(inp):
 
 def p1(inp):
     rules, messages = parse_input(inp)
-    regex = f"^{is_valid(rules, 0)}$"
+    regex = f"^{is_valid(rules, 0, 0)}$"
     return sum(1 for msg in messages if re.match(regex, msg))
 
 
@@ -60,8 +63,8 @@ def p2(inp):
         'status': False,
         'data': [[42, 31], [42, 11, 31]]
     }
-    regex = f"^{is_valid(rules, 0)}$"
-    print(regex)
+    regex = f"^{is_valid(rules, 0, 0)}$"
+#     print(regex)
     return sum(1 for msg in messages if re.match(regex, msg))
 
 
