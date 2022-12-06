@@ -51,10 +51,8 @@ def p2(inp):
                 li.append(line[i])
             i += 1
         instructions.append(li)
-    all_tiles = {'black': set(), 'white': set()}
-    at = dict()
+    all_tiles = dict()
     visited = set()
-    # print(instructions)
     max_x, max_y, max_z = 0, 0, 0
     min_x, min_y, min_z = 0, 0, 0
     for i in instructions:
@@ -70,48 +68,41 @@ def p2(inp):
         min_z = min(pos[2], min_z)
 
         if pos in visited:
-            all_tiles['black'].discard(pos)
+            all_tiles[pos] = 'white'
             visited.remove(pos)
         else:
-            all_tiles['black'].add(pos)
+            all_tiles[pos] = 'black'
             visited.add(pos)
 
     print(min_x, min_y, min_z)
     print(max_x, max_y, max_z)
-    for x in range(min_x-5, max_x+5):
-        for y in range(min_y-5, max_y+5):
-            for z in range(min_z-5, max_z+5):
-                if (x, y, z) not in all_tiles['black']:
-                    all_tiles['white'].add((x, y, z))
+    for x in range(min_x-1, max_x+2):
+        for y in range(min_y-1, max_y+2):
+            for z in range(min_z-1, max_z+2):
+                if (x, y, z) not in all_tiles:
+                    all_tiles[(x, y, z)] = 'white'
+                    # all_tiles['white'].add((x, y, z))
+    print(list(all_tiles.values()).count('black'))
 
-    for i in range(10):
+    for i in range(100):
         new_tiles = deepcopy(all_tiles)
-        for colour, tiles in all_tiles.items():
-            for tile in tiles:
-                nadjacent = 0
-                for d in directions.values():
-                    neighbour = d(*tile)
-                    if neighbour in all_tiles['black']:
-                        nadjacent += 1
-                    else:
-                        new_tiles['white'].add(neighbour)
+        for tile, colour in all_tiles.items():
+            nadjacent = 0
+            for d in directions.values():
+                neighbour = d(*tile)
+                if all_tiles.get(neighbour, 'white') == 'black':
+                    nadjacent += 1
+                elif neighbour not in all_tiles:
+                    new_tiles[neighbour] = 'white'
 
-                if colour == 'black' and (nadjacent == 0 or nadjacent > 2):
-                    new_tiles['black'].discard(tile)
-                    new_tiles['white'].add(tile)
-                elif colour == 'white' and (nadjacent == 2):
-                    new_tiles['white'].discard(tile)
-                    new_tiles['black'].add(tile)
-        # for x in range(min_x-5, max_x+5):
-        #     for y in range(min_y-5, max_y+5):
-        #         for z in range(min_z-5, max_z+5):
-        #             if (x, y, z) not in all_tiles['black']:
-        #                 new_tiles['white'].add((x, y, z))
-        print(f"round {i+1}", len(new_tiles['black']))
+            if colour == 'black' and (nadjacent == 0 or nadjacent > 2):
+                new_tiles[tile] = 'white'
+            elif colour == 'white' and (nadjacent == 2):
+                new_tiles[tile] = 'black'
+        if (i+1) % 10 == 0:
+            print(f"round {i+1}", list(new_tiles.values()).count('black'))
         all_tiles = new_tiles
-
-
-
+    return list(all_tiles.values()).count('black')
 
 
 inp = get_input()
