@@ -3,49 +3,45 @@ from utils import get_input
 import re
 
 
-def p1(inp):
-    ia = dict()
-    ings = []
-    potential = dict()
+def get_allergen_ingredients(inp):
+    allergen_ingredients = dict()
+    all_ingredients = []
     for line in inp:
         if lm := re.match(r'([\w,\s]+) \(contains ([\w,\s]+)\)', line):
             inp_ingredients, inp_allergens = lm.groups()
             allergens = [x.strip() for x in inp_allergens.split(',')]
             ingredients = inp_ingredients.split(' ')
             for a in allergens:
-                if a not in ia:
-                    ia[a] = []
-                ia[a].append(ingredients)
-            ings.extend(ingredients)
+                if a not in allergen_ingredients:
+                    allergen_ingredients[a] = set(ingredients)
+                else:
+                    allergen_ingredients[a] = allergen_ingredients[a].intersection(set(ingredients))
+            all_ingredients.extend(ingredients)
 
-    print(ia)
-    for allergen, value in ia.items():
-        pi = set(value[0])
-        for i in value[1:]:
-            pi = pi.intersection(set(i))
-        potential[allergen] = pi
-    defo = dict()
-    while not all([True if len(x) == 1 else False for x in potential.values()]):
-        for allergen in potential.keys():
-            if len(potential[allergen]) == 1:
-                pa = list(potential[allergen])[0]
-                for a2 in potential.keys():
-                    if a2 == allergen: continue
-                    print(allergen, a2, potential)
-                    potential[a2].discard(pa)
+    # since we know theres 1 to 1 mapping from allergens to ingredients
+    # keep looping until we find a match
+    while not all([True if len(x) == 1 else False for x in allergen_ingredients.values()]):
+        for allergen in allergen_ingredients.keys():
+            if len(allergen_ingredients[allergen]) == 1:
+                ingredient = list(allergen_ingredients[allergen])[0]
+                for other in allergen_ingredients.keys():
+                    if other == allergen: continue
+                    allergen_ingredients[other].discard(ingredient)
 
-    potential = dict(sorted(potential.items()))
-    aaas = set(list(x)[0] for x in potential.values())
+    allergen_ingredients = dict(sorted(allergen_ingredients.items()))
+    return allergen_ingredients, all_ingredients
 
-    print(potential)
-    print(aaas)
-    no = [x for x in ings if x not in aaas]
-    print(','.join(list(x)[0] for x in potential.values()))
-    return len(no)
+
+def p1(inp):
+    allergen_ingredients, all_ingredients = get_allergen_ingredients(inp)
+    allergens = set(list(x)[0] for x in allergen_ingredients.values())
+
+    return len([x for x in all_ingredients if x not in allergens])
 
 
 def p2(inp):
-    pass
+    allergen_ingredients, all_ingredients = get_allergen_ingredients(inp)
+    return ','.join(list(x)[0] for x in allergen_ingredients.values())
 
 
 inp = get_input()
