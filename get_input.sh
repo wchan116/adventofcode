@@ -8,6 +8,9 @@ set +o allexport
 # get the wanted year and day
 if [ $# -ne 2 ]; then
     year=$(date | cut -d' ' -f7)
+    if [ -z "$year" ]; then
+        year=$(date | cut -d' ' -f6)
+    fi
     day=$(date | cut -d' ' -f3)
     if [ -z "$day" ]; then
         day=$(date | cut -d' ' -f4)
