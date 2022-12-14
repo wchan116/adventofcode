@@ -85,7 +85,7 @@ fun p1(input: List<String>): Int {
     return rest
 }
 
-fun p2(input: List<String>) {
+fun p2(input: List<String>): Int {
     var rocks = process_input(input)
 
 //    println(rocks)
@@ -122,8 +122,8 @@ fun p2(input: List<String>) {
         }
     }
 //    println(sand)
-    println(rest - 1)
 
+    return rest - 1
 }
 
 val inp = Utils.readFromFileIntoList(args[0])!!
